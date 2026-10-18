@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: brand.name + ' Helper', heroLead: 'Download the video you are watching in one click, without copying links.', heroIcon: '<img src="/img/logo.svg?v=' + assetVersion + '" alt="" width="40" height="40">' }) %>
+
+<section class="section">
+  <div class="container">
+    <div class="install-grid">
+      <article class="card install-card install-card-main">
+        <span class="feature-ic"><%- icon('puzzle') %></span>
+        <h2>Browser extension</h2>
+        <p>Adds a <b>Download</b> button to video pages on YouTube, Facebook, Instagram, TikTok, X, Vimeo and more, a toolbar button, and a right-click menu item for links.</p>
+        <a class="btn btn-primary btn-lg" href="/helper-extension.zip" download><%- icon('download') %> Download extension (.zip)</a>
+        <ol class="mini-steps">
+          <li>Unzip it, then open <code>chrome://extensions</code> (or <code>edge://extensions</code>, <code>brave://extensions</code>).</li>
+          <li>Turn on <b>Developer mode</b> and click <b>Load unpacked</b>. Select the unzipped folder.</li>
+          <li>It is already set up for <code data-origin><%= origin %></code>; you can change that in the extension's options.</li>
+        </ol>
+        <p class="muted small">Works in Chrome, Edge, Brave, Opera, Vivaldi and other Chromium browsers. Firefox: <code>about:debugging</code> &rarr; This Firefox &rarr; Load Temporary Add-on &rarr; <code>manifest.json</code>.</p>
+      </article>
+
+      <article class="card install-card">
+        <span class="feature-ic"><%- icon('bookmark') %></span>
+        <h2>Bookmark button</h2>
+        <p>No extension needed. Drag this button to your bookmarks bar, then click it while watching a video.</p>
+        <p><a class="btn btn-dashed" data-bookmarklet href="#" title="Drag me to the bookmarks bar"><%- icon('download') %> <%= brand.name %></a></p>
+        <p class="muted small">Can't drag? Create a bookmark and paste this as its address:</p>
+        <textarea class="code-box" readonly rows="3" data-bookmarklet-code></textarea>
+      </article>
+
+      <article class="card install-card">
+        <span class="feature-ic"><%- icon('phone') %></span>
+        <h2>Phone &amp; desktop app</h2>
+        <p>Add <%= brand.name %> to your home screen. It opens like an app, and on Android it appears in the <b>Share</b> menu of other apps.</p>
+        <p><button type="button" class="btn btn-primary" data-install-pwa hidden><%- icon('download') %> Install app</button></p>
+        <ul class="checklist small">
+          <li><%- icon('check') %><span><b>Android (Chrome):</b> menu &#8942; &rarr; Install app.</span></li>
+          <li><%- icon('check') %><span><b>iPhone (Safari):</b> Share &rarr; Add to Home Screen.</span></li>
+          <li><%- icon('check') %><span><b>Desktop:</b> the install icon in the address bar.</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

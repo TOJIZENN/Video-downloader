@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Fetchly Helper",
+  "version": "1.0.0",
+  "description": "One-click video downloads: sends the page you are watching to your Fetchly downloader.",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_title": "Download this video",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png" }
+  },
+  "background": { "service_worker": "background.js", "scripts": ["config.js", "background.js"] },
+  "permissions": ["contextMenus", "storage", "activeTab"],
+  "options_ui": { "page": "options.html", "open_in_tab": false },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*", "*://*.facebook.com/*", "*://*.instagram.com/*", "*://*.tiktok.com/*",
+        "*://*.x.com/*", "*://*.twitter.com/*", "*://*.vimeo.com/*", "*://*.dailymotion.com/*",
+        "*://*.reddit.com/*", "*://*.twitch.tv/*", "*://*.vk.com/*", "*://*.pinterest.com/*",
+        "*://*.threads.net/*", "*://*.soundcloud.com/*", "*://*.bilibili.com/*", "*://*.tumblr.com/*"
+      ],
+      "js": ["config.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_specific_settings": { "gecko": { "id": "helper@fetchly.invalid", "strict_min_version": "121.0" } }
+}

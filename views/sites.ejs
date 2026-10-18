@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: 'Supported sites', heroLead: brand.name + ' runs on the open-source yt-dlp engine. These are the sites it understands; pages with a standard video player often work too.', heroIcon: icon('globe') }) %>
+<section class="section">
+  <div class="container">
+    <div class="platform-grid">
+      <% resourceTiles.forEach(function (p) { %>
+      <a class="platform-card" href="/<%= p.slug %>">
+        <span class="platform-ic"><img src="/icons/<%= p.icon %>.svg" alt="" width="22" height="22"></span>
+        <span class="platform-txt"><b><%= p.site %></b><small><%= p.domain %></small></span>
+        <%- icon('arrow', 'ic-sm platform-go') %>
+      </a>
+      <% }) %>
+    </div>
+    <div class="card sites-card">
+      <div class="sites-search">
+        <%- icon('search', 'field-ic') %>
+        <label for="site-filter" class="visually-hidden">Search sites</label>
+        <input id="site-filter" type="search" placeholder="Search all supported sites…" autocomplete="off">
+        <span class="badge" data-site-count></span>
+      </div>
+      <ul class="sites-list" data-sites-list><li class="muted">Loading…</li></ul>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

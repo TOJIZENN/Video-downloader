@@ -1,0 +1,72 @@
+<%- include('partials/header') %>
+<%- include('partials/downloader') %>
+
+<% var steps = content ? content.steps : platformContent.steps; %>
+<section class="section">
+  <div class="container">
+    <h2 class="section-title"><%= platform ? 'How to download from ' + (platform.short || platform.site) : 'How it works' %></h2>
+    <% if (platform) { %><p class="section-lead"><%= platformContent.intro %></p><% } %>
+    <ol class="steps">
+      <% steps.forEach(function (s, i) { %>
+      <li class="step">
+        <span class="step-n"><%= i + 1 %></span>
+        <div><h3><%= s.title %></h3><p><%= s.text %></p></div>
+      </li>
+      <% }) %>
+    </ol>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-row">
+      <h2 class="section-title"><%= t('home.platforms') %></h2>
+      <a class="link-arrow" href="/supported-sites"><%= t('footer.sites') %> <%- icon('arrow', 'ic-sm') %></a>
+    </div>
+    <div class="platform-grid">
+      <% resourceTiles.filter(function (p) { return !platform || p.icon !== platform.icon; }).forEach(function (p) { %>
+      <a class="platform-card" href="/<%= p.slug %>">
+        <img src="/icons/<%= p.icon %>.svg" alt="" width="20" height="20">
+        <span><%= p.site %></span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<% if (content) { %>
+<section class="section">
+  <div class="container">
+    <h2 class="section-title"><%= t('footer.tools') %></h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="/youtube-to-mp3"><span class="tool-ic"><%- icon('music') %></span><div><h3>Video to MP3</h3><p>Keep just the sound of a video as a 192 kbps MP3.</p></div></a>
+      <a class="tool-card" href="/youtube-transcript"><span class="tool-ic"><%- icon('text') %></span><div><h3>Transcripts</h3><p>The full text of a video, with timestamps you can search.</p></div></a>
+      <a class="tool-card" href="/youtube-subtitles"><span class="tool-ic"><%- icon('captions') %></span><div><h3>Subtitles</h3><p>SRT, VTT or TXT in every available language.</p></div></a>
+      <a class="tool-card" href="/mp4-converter"><span class="tool-ic"><%- icon('convert') %></span><div><h3>File converters</h3><p>MOV, MKV and WEBM to MP4, video to MP3, clips to GIF.</p></div></a>
+    </div>
+
+    <div class="note-box">
+      <span class="tool-ic"><%- icon('puzzle') %></span>
+      <div>
+        <h3>Download without copying links</h3>
+        <p>Add the <%= brand.name %> extension or a bookmark button to your browser, or install <%= brand.name %> on your phone and share videos to it.</p>
+      </div>
+      <a class="btn btn-outline" href="/install"><%= t('nav.getExtension') %></a>
+    </div>
+  </div>
+</section>
+<% } else { %>
+<section class="section">
+  <div class="container container-sm">
+    <h2 class="section-title">What you get</h2>
+    <ul class="checklist">
+      <% platformContent.features.forEach(function (f) { %><li><%- icon('check') %><span><%= f %></span></li><% }) %>
+    </ul>
+    <p class="muted small">Example link: <code><%= platform.example || ('https://' + platform.domain + '/…') %></code></p>
+  </div>
+</section>
+<% } %>
+
+<%- include('partials/faq') %>
+<%- include('partials/rating') %>
+<%- include('partials/footer') %>

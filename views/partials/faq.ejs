@@ -1,0 +1,18 @@
+<section class="section" id="faq">
+  <div class="container container-sm">
+    <h2 class="section-title">Frequently asked questions</h2>
+    <div class="faq-list">
+      <% faq.forEach(function (qa) { %>
+      <details class="faq-item">
+        <summary><span><%= qa[0] %></span><%- icon('chevron', 'faq-chev') %></summary>
+        <div class="faq-a"><%- qa[1] %></div>
+      </details>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<script type="application/ld+json"><%- JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(function (qa) { return { '@type': 'Question', name: qa[0], acceptedAnswer: { '@type': 'Answer', text: qa[1].replace(/<[^>]+>/g, '') } }; })
+}).replace(/</g, '\\u003c') %></script>

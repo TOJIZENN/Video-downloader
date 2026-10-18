@@ -1,0 +1,71 @@
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/logo.svg?v=<%= assetVersion %>" alt="" width="30" height="30"><span><%= brand.name %></span></a>
+        <p><%= brand.tagline %>. MP4 up to 4K, MP3, subtitles and file converters.</p>
+        <div class="lang-select">
+          <%- icon('globe') %>
+          <label for="lang-select" class="visually-hidden"><%= t('footer.language') %></label>
+          <select id="lang-select" data-lang-select>
+            <% languages.forEach(function (l) { %><option value="<%= l.code %>"<%= l.code === lang ? ' selected' : '' %>><%= l.name %></option><% }) %>
+          </select>
+        </div>
+      </div>
+      <div>
+        <h3><%= t('footer.downloaders') %></h3>
+        <ul>
+          <% platforms.filter(function (p) { return !p.audio; }).slice(0, 10).forEach(function (p) { %><li><a href="/<%= p.slug %>"><%= p.short || p.site %></a></li><% }) %>
+        </ul>
+      </div>
+      <div>
+        <h3>&nbsp;</h3>
+        <ul>
+          <% platforms.filter(function (p) { return !p.audio; }).slice(10).forEach(function (p) { %><li><a href="/<%= p.slug %>"><%= p.short || p.site %></a></li><% }) %>
+          <li><a href="/supported-sites"><%= t('footer.sites') %></a></li>
+        </ul>
+      </div>
+      <div>
+        <h3><%= t('footer.tools') %></h3>
+        <ul>
+          <% platforms.filter(function (p) { return p.audio; }).forEach(function (p) { %><li><a href="/<%= p.slug %>"><%= p.short || (p.site + ' MP3') %></a></li><% }) %>
+          <li><a href="/youtube-transcript">YouTube Transcript</a></li>
+          <li><a href="/youtube-subtitles">YouTube Subtitles</a></li>
+          <% converters.forEach(function (c) { %><li><a href="/<%= c.slug %>"><%= c.label %></a></li><% }) %>
+        </ul>
+      </div>
+      <div>
+        <h3><%= t('footer.help') %></h3>
+        <ul>
+          <li><a href="/how-to-download"><%= t('nav.howto') %></a></li>
+          <li><a href="/install"><%= t('nav.getExtension') %></a></li>
+          <li><a href="/faq"><%= t('footer.faq') %></a></li>
+          <li><a href="/api-docs"><%= t('footer.api') %></a></li>
+          <li><a href="/feedback"><%= t('footer.feedback') %></a></li>
+          <li><a href="/terms"><%= t('form.terms') %></a></li>
+          <li><a href="/privacy"><%= t('form.privacy') %></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <%= brand.year %> <%= brand.name %> · Built on open-source yt-dlp and FFmpeg</span>
+      <span><%- t.html('form.agree', { terms: '<a href="/terms">' + t('form.terms') + '</a>', privacy: '<a href="/privacy">' + t('form.privacy') + '</a>' }) %></span>
+      <% if (authEnabled) { %><form method="post" action="/auth/logout" class="signout"><button type="submit" class="link-btn">Sign out</button></form><% } %>
+    </div>
+  </div>
+</footer>
+<div class="dock" id="dock" hidden aria-live="polite">
+  <div class="dock-head">
+    <button type="button" class="dock-toggle" data-dock-toggle aria-expanded="true">
+      <%- icon('download') %> <span><%= t('dock.title') %></span> <span class="dock-count" data-dock-count>0</span> <%- icon('chevron', 'ic-sm dock-chevron') %>
+    </button>
+  </div>
+  <div class="dock-body" data-dock-body></div>
+</div>
+<div id="toast-root" class="toast-root" aria-live="polite"></div>
+<script type="application/json" id="i18n-data"><%- JSON.stringify(clientStrings).replace(/</g, '\\u003c') %></script>
+<script src="/js/app.js?v=<%= assetVersion %>" defer></script>
+<% pageScripts.forEach(function (s) { %><script src="<%= s %>?v=<%= assetVersion %>" defer></script>
+<% }) %></body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title><%= pageTitle %></title>
+  <% if (pageDescription) { %><meta name="description" content="<%= pageDescription %>"><% } %>
+  <link rel="canonical" href="<%= canonical %>">
+  <% languages.forEach(function (l) { %><link rel="alternate" hreflang="<%= l.code %>" href="<%= canonical %>?lang=<%= l.code %>">
+  <% }) %><meta property="og:type" content="website">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= pageDescription %>">
+  <meta property="og:site_name" content="<%= brand.name %>">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/img/logo.svg?v=<%= assetVersion %>" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script src="/js/theme.js?v=<%= assetVersion %>"></script>
+  <link rel="stylesheet" href="/css/style.css?v=<%= assetVersion %>">
+</head>
+<body>
+<%- include('icons') %>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href="/" aria-label="<%= brand.name %> home">
+      <img src="/img/logo.svg?v=<%= assetVersion %>" alt="" width="34" height="34">
+      <span><%= brand.name %></span>
+    </a>
+
+    <nav class="main-nav" id="site-nav" aria-label="Main">
+      <div class="nav-item">
+        <button class="nav-link" type="button" aria-expanded="false" data-menu-btn>
+          <%= t('footer.downloaders') %> <%- icon('chevron', 'ic-sm') %>
+        </button>
+        <div class="nav-menu nav-menu-wide" data-menu>
+          <div class="mega-grid">
+            <% platforms.filter(function (p) { return !p.audio; }).forEach(function (p) { %>
+            <a class="mega-link" href="/<%= p.slug %>"<%= currentPath === '/' + p.slug ? ' aria-current=page' : '' %>>
+              <span class="mega-ic"><img src="/icons/<%= p.icon %>.svg" alt="" width="18" height="18"></span>
+              <span><b><%= p.short || p.site %></b><small><%= p.domain %></small></span>
+            </a>
+            <% }) %>
+          </div>
+          <a class="nav-menu-foot" href="/supported-sites"><%= t('footer.sites') %> <%- icon('arrow', 'ic-sm') %></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-link" type="button" aria-expanded="false" data-menu-btn>
+          <%= t('footer.tools') %> <%- icon('chevron', 'ic-sm') %>
+        </button>
+        <div class="nav-menu" data-menu>
+          <a class="menu-link" href="/youtube-to-mp3"><%- icon('music') %> YouTube to MP3</a>
+          <a class="menu-link" href="/tiktok-to-mp3"><%- icon('music') %> TikTok to MP3</a>
+          <a class="menu-link" href="/youtube-transcript"><%- icon('text') %> YouTube Transcript</a>
+          <a class="menu-link" href="/youtube-subtitles"><%- icon('captions') %> YouTube Subtitles</a>
+          <div class="menu-sep"></div>
+          <% converters.forEach(function (c) { %><a class="menu-link" href="/<%= c.slug %>"><%- icon('convert') %> <%= c.label %></a>
+          <% }) %>
+        </div>
+      </div>
+      <a class="nav-link" href="/how-to-download"<%= currentPath === '/how-to-download' ? ' aria-current=page' : '' %>><%= t('nav.howto') %></a>
+      <a class="nav-link" href="/faq"<%= currentPath === '/faq' ? ' aria-current=page' : '' %>><%= t('footer.faq') %></a>
+      <a class="nav-link nav-cta-mobile" href="/install"><%- icon('puzzle') %> <%= t('nav.getExtension') %></a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="<%= t('nav.theme') %>" aria-pressed="false" title="<%= t('nav.theme') %>">
+        <%- icon('moon', 'theme-moon') %><%- icon('sun', 'theme-sun') %>
+      </button>
+      <a class="btn btn-outline btn-sm header-cta" href="/install"><%= t('nav.getExtension') %></a>
+      <button class="icon-btn nav-toggle" type="button" aria-label="<%= t('nav.menu') %>" aria-expanded="false" aria-controls="site-nav"><%- icon('menu') %></button>
+    </div>
+  </div>
+</header>
+<main id="main">

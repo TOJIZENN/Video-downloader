@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+<section class="hero hero-compact">
+  <div class="container hero-inner">
+    <h1 class="hero-title"><%= h1 %></h1>
+    <p class="hero-sub"><%= mode === 'transcript' ? 'The full text of a video, with timestamps you can click, search and copy.' : 'Subtitles and auto-captions in every available language.' %></p>
+    <form id="subs-form" class="search-card" data-mode="<%= mode %>" data-autostart="<%= prefill ? '1' : '' %>" autocomplete="off">
+      <div class="search-row">
+        <div class="search-field">
+          <%- icon('link', 'field-ic') %>
+          <label for="subs-url" class="visually-hidden">YouTube link</label>
+          <input id="subs-url" name="url" type="text" inputmode="url" spellcheck="false" placeholder="Paste a YouTube video link" value="<%= prefill %>" autofocus>
+          <button type="button" class="icon-btn dl-clear" aria-label="<%= t('form.clear') %>" hidden><%- icon('x') %></button>
+        </div>
+        <button type="submit" class="btn btn-primary btn-xl dl-submit"><%- icon(mode === 'transcript' ? 'text' : 'captions') %><span><%= t('subs.find') %></span></button>
+      </div>
+      <div class="search-foot"><span><%- icon('shield', 'ic-sm') %> Works with YouTube and most other sites that publish subtitles.</span></div>
+    </form>
+  </div>
+</section>
+
+<section class="results">
+  <div class="container container-md">
+    <div id="subs-status"></div>
+    <div id="subs-result" class="card subs-card" hidden>
+      <div class="subs-video">
+        <img data-subs-thumb alt="" width="160" height="90">
+        <div><div class="media-title" data-subs-title></div><div class="muted small" data-subs-meta></div></div>
+      </div>
+      <div class="subs-controls">
+        <label class="field-label"><%= t('subs.language') %>
+          <select class="select" data-subs-lang></select>
+        </label>
+        <div class="subs-buttons">
+          <% if (mode === 'subtitles') { %>
+            <button type="button" class="btn btn-primary" data-subs-dl="srt"><%- icon('download') %> SRT</button>
+            <button type="button" class="btn btn-soft" data-subs-dl="vtt">VTT</button>
+            <button type="button" class="btn btn-soft" data-subs-dl="txt">TXT</button>
+          <% } else { %>
+            <label class="switch"><input type="checkbox" data-subs-ts checked><span></span> <%= t('subs.timestamps') %></label>
+            <button type="button" class="btn btn-primary" data-subs-copy><%- icon('copy') %> <%= t('subs.copy') %></button>
+            <button type="button" class="btn btn-soft" data-subs-dl="txt">TXT</button>
+            <button type="button" class="btn btn-soft" data-subs-dl="srt">SRT</button>
+          <% } %>
+        </div>
+      </div>
+      <div class="transcript-box">
+        <div class="search-mini"><%- icon('search', 'field-ic') %><input type="search" class="transcript-search" data-subs-search placeholder="<%= t('subs.search') %>"></div>
+        <ol class="transcript" data-subs-transcript></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container-md">
+    <% if (mode === 'transcript') { %>
+      <div class="section-head section-head-left"><h2>Turn any YouTube video into text</h2></div>
+      <p>Paste a link to get the complete transcript with timestamps. Click a time to open the video at that moment, search for a word, copy the whole text, or save it as TXT or SRT. When the creator has not uploaded subtitles, YouTube's automatic captions are used, and you can pick any language YouTube can translate them into.</p>
+      <div class="feature-grid feature-grid-3">
+        <div class="feature-card"><span class="feature-ic"><%- icon('text') %></span><div><h3>Study notes</h3><p>Quotes and notes from lectures and talks.</p></div></div>
+        <div class="feature-card"><span class="feature-ic"><%- icon('list') %></span><div><h3>Summaries</h3><p>Articles and show notes from podcasts.</p></div></div>
+        <div class="feature-card"><span class="feature-ic"><%- icon('mute') %></span><div><h3>Read, don't listen</h3><p>Follow a video when you can't play sound.</p></div></div>
+      </div>
+    <% } else { %>
+      <div class="section-head section-head-left"><h2>SRT, VTT or TXT — your choice</h2></div>
+      <div class="feature-grid feature-grid-3">
+        <div class="feature-card"><span class="feature-ic"><%- icon('film') %></span><div><h3>SRT</h3><p>Works with almost every player and editor: VLC, Premiere, DaVinci Resolve, CapCut.</p></div></div>
+        <div class="feature-card"><span class="feature-ic"><%- icon('globe') %></span><div><h3>VTT</h3><p>The web standard used by HTML5 video players.</p></div></div>
+        <div class="feature-card"><span class="feature-ic"><%- icon('text') %></span><div><h3>TXT</h3><p>Plain text without timing, ready to read or paste.</p></div></div>
+      </div>
+      <p class="muted">Subtitles uploaded by the creator are listed first; auto-generated captions and machine translations follow.</p>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/footer') %>

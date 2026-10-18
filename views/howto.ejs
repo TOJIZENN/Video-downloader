@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: 'How to download videos with ' + brand.name, heroLead: 'Three steps on any device, plus three shortcuts for when you download often.', heroIcon: icon('download') }) %>
+
+<section class="section">
+  <div class="container container-md">
+    <ol class="timeline">
+      <li>
+        <span class="timeline-n">1</span>
+        <div class="card">
+          <h2><%- icon('link') %> Copy the video link</h2>
+          <p>Open the video in your browser and copy the address from the address bar. In mobile apps, tap <b>Share</b> and then <b>Copy link</b>. Links to a single video, a Short/Reel, a post with several clips or a whole playlist all work.</p>
+        </div>
+      </li>
+      <li>
+        <span class="timeline-n">2</span>
+        <div class="card">
+          <h2><%- icon('clipboard') %> Paste it on <%= brand.name %></h2>
+          <p>Paste the link into the box on the <a href="/">home page</a>, or press the <b>Paste</b> button inside it. The search starts by itself. Want only the sound? Switch the box to <b><%= t('mode.audio') %></b> first.</p>
+        </div>
+      </li>
+      <li>
+        <span class="timeline-n">3</span>
+        <div class="card">
+          <h2><%- icon('download') %> Pick a format and save</h2>
+          <p>The big button downloads the recommended format (the best quality up to 720p, or MP3 in audio mode). Every other option sits in the <b>Video</b>, <b>Audio</b> and <b>Video without sound</b> tabs, each with its file size.</p>
+          <p>Instant files start downloading straight away. HD files that have to be joined appear in the <b>Downloads</b> panel at the bottom of the screen with a progress bar and are saved automatically when ready. You can start several and keep browsing.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="section-head section-head-left">
+      <h2>Faster ways</h2>
+    </div>
+    <div class="feature-grid feature-grid-3">
+      <div class="feature-card"><span class="feature-ic"><%- icon('link') %></span><div><h3>Type before the link</h3><p>Put the cursor before <code>https://</code> in the address bar, type <code><%= host %>/</code> and press Enter.</p></div></div>
+      <div class="feature-card"><span class="feature-ic"><%- icon('puzzle') %></span><div><h3>Browser extension</h3><p>Adds a Download button to video pages and a right-click menu item. <a href="/install">Install</a>.</p></div></div>
+      <div class="feature-card"><span class="feature-ic"><%- icon('phone') %></span><div><h3>Share on Android</h3><p>Install <%= brand.name %> as an app, then use Share in YouTube, TikTok or Instagram.</p></div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h2>Where do files go?</h2>
+        <ul class="checklist">
+          <li><%- icon('check') %><span><b>Computer:</b> your browser's Downloads folder (Ctrl+J / Cmd+Shift+J).</span></li>
+          <li><%- icon('check') %><span><b>Android:</b> the Downloads folder in the Files app.</span></li>
+          <li><%- icon('check') %><span><b>iPhone / iPad:</b> Files app &rarr; Downloads. To move a video to Photos, open it and choose Share &rarr; Save Video.</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>If something goes wrong</h2>
+        <ul class="checklist">
+          <li><%- icon('alert', 'ic-warn') %><span><b>Link not supported:</b> copy the page that plays the video, not a search or profile page.</span></li>
+          <li><%- icon('alert', 'ic-warn') %><span><b>Private video:</b> only public videos can be downloaded.</span></li>
+          <li><%- icon('alert', 'ic-warn') %><span><b>Links expired:</b> results stay valid for about half an hour. Paste the link again.</span></li>
+          <li><%- icon('alert', 'ic-warn') %><span><b>No sound:</b> use the Video tab, not "Video without sound".</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

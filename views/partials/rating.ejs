@@ -1,0 +1,11 @@
+<section class="section section-tight">
+  <div class="container container-sm">
+    <div class="rating-card" data-rating>
+      <span class="rating-label"><%= t('rate.title') %></span>
+      <div class="stars" role="radiogroup" aria-label="<%= t('rate.title') %>">
+        <% for (var i = 1; i <= 5; i++) { %><button type="button" class="star" role="radio" aria-checked="false" data-star="<%= i %>" aria-label="<%= i %> / 5"><%- icon('star') %></button><% } %>
+      </div>
+      <span class="muted small" data-rating-text><%= t('rate.first') %></span>
+    </div>
+  </div>
+</section>

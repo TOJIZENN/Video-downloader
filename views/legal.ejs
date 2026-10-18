@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: doc === 'terms' ? 'Terms of Service' : 'Privacy Policy', heroLead: 'Template text for the operator of this ' + brand.name + ' installation. Review it with a lawyer before running a public service.', heroIcon: icon('shield') }) %>
+<section class="section">
+  <div class="container container-md prose card">
+  <% if (doc === 'terms') { %>
+    <h2>1. The service</h2>
+    <p><%= brand.name %> is a tool that helps you save publicly available media from websites to your own device and convert files you own between formats. It does not host any of the media it processes.</p>
+    <h2>2. Your responsibilities</h2>
+    <p>You may only download or convert content that you own, that is in the public domain, that is published under a licence allowing it, or that you have the rights holder's permission to download. You are responsible for complying with copyright law and with the terms of the websites you download from. Do not use the service to infringe anyone's rights, to collect personal data, or to overload the service or third-party websites.</p>
+    <h2>3. No warranty</h2>
+    <p>The service is provided "as is", without any warranty. Websites change frequently, so a link that works today may stop working tomorrow. We are not liable for any loss resulting from the use of the service.</p>
+    <h2>4. Rights holders</h2>
+    <p>If you believe the service is being used to infringe your rights, contact us through the <a href="/feedback">feedback form</a> and we will review the request.</p>
+    <h2>5. Changes</h2>
+    <p>We may update these terms. Continued use of the service means you accept the current version.</p>
+  <% } else { %>
+    <h2>What we process</h2>
+    <ul>
+      <li><b>Links you paste</b> are sent to the server to find the video and are kept in memory for about 30 minutes so the download buttons keep working. They are not linked to your identity.</li>
+      <li><b>Files</b> prepared by the server (joined HD videos, MP3s, conversions, uploads) are stored temporarily and deleted automatically within an hour. Instant downloads are streamed through the server and never stored.</li>
+      <li><b>IP addresses</b> are used in memory for rate limiting. For the rating widget only a keyed one-way hash of your IP is stored, so each visitor can vote once.</li>
+      <li><b>Feedback</b> you send (and your email, if you choose to give it) is stored so we can answer.</li>
+    </ul>
+    <h2>Cookies and storage</h2>
+    <p>A <code>lang</code> cookie remembers your language choice. There are no advertising or tracking cookies.</p>
+    <h2>Third parties</h2>
+    <p>Video previews for YouTube, Vimeo and Dailymotion are shown with the sites' own embedded players (YouTube in privacy-enhanced mode) only after you click play. Thumbnails are fetched by the server, so the source site does not see your IP address.</p>
+    <h2>Contact</h2>
+    <p>Questions about privacy: use the <a href="/feedback">feedback form</a>.</p>
+  <% } %>
+  </div>
+</section>
+<%- include('partials/footer') %>

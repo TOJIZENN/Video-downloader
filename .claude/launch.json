@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fetchly",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3000
+    },
+    {
+      "name": "fetchly-private",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3994,
+      "env": { "PORT": "3994", "SITE_PASSWORD": "preview-only-password", "AUTH_SECRET": "preview-only-secret-0123456789abcdef0123456789" }
+    }
+  ]
+}

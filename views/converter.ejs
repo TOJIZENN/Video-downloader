@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+<section class="hero hero-compact">
+  <div class="container hero-inner">
+    <h1 class="hero-title"><%= conv.label %> Converter</h1>
+    <p class="hero-sub">Convert <%= conv.from %> files to <%= conv.to %> online. Free and private, up to <%= uploadMaxMb %> MB per file.</p>
+
+    <form id="conv-form" class="search-card conv-card" data-target="<%= conv.target %>" data-max="<%= uploadMaxMb %>">
+      <label class="dropzone" data-dropzone>
+        <input type="file" name="file" accept="<%= conv.accept %>" data-file>
+        <span class="dropzone-ic"><%- icon('upload') %></span>
+        <span class="dropzone-title" data-drop-label><%= t('conv.drop') %></span>
+        <span class="muted small"><%= conv.from %> · max <%= uploadMaxMb %> MB</span>
+      </label>
+      <% if (conv.target === 'gif') { %>
+      <div class="gif-options">
+        <label class="field-label">Start (sec) <input class="input" type="number" name="start" min="0" step="0.5" value="0"></label>
+        <label class="field-label">Length (sec) <input class="input" type="number" name="duration" min="1" max="<%= gifMaxSeconds %>" step="0.5" value="5"></label>
+        <label class="field-label">Width
+          <select class="select" name="width"><option value="320">320 px</option><option value="480" selected>480 px</option><option value="640">640 px</option><option value="800">800 px</option></select>
+        </label>
+        <label class="field-label">Frame rate
+          <select class="select" name="fps"><option value="8">8 fps</option><option value="12" selected>12 fps</option><option value="15">15 fps</option><option value="24">24 fps</option></select>
+        </label>
+      </div>
+      <% } %>
+      <button type="submit" class="btn btn-primary btn-xl btn-block" disabled data-convert><%- icon('convert') %> <%= t('conv.convert') %> to <%= conv.to %></button>
+    </form>
+  </div>
+</section>
+
+<section class="results">
+  <div class="container container-md"><div id="conv-status" class="conv-status"></div></div>
+</section>
+
+<section class="section">
+  <div class="container container-md">
+    <h2 class="section-title">How it works</h2>
+    <ol class="steps steps-compact">
+      <li class="step"><span class="step-n">1</span><div><h3>Choose a file</h3><p>Click the box above or drop your file onto it.</p></div></li>
+      <li class="step"><span class="step-n">2</span><div><h3>Convert</h3><p><%= conv.target === 'gif' ? 'Pick where the GIF starts, its length and size, then press Convert.' : 'Press Convert and follow the progress bar.' %></p></div></li>
+      <li class="step"><span class="step-n">3</span><div><h3>Save</h3><p>The <%= conv.to %> file downloads automatically when it is ready.</p></div></li>
+    </ol>
+    <p>
+      <% if (conv.target === 'mp4') { %>When the video inside your file is already H.264 or H.265 it is copied without re-encoding, so conversion takes seconds and keeps the original quality. Other formats (VP9, AV1, MPEG-4 Part 2…) are re-encoded to H.264 with AAC sound for the widest compatibility.
+      <% } else if (conv.target === 'mp3') { %>The soundtrack is encoded as a 192 kbps MP3, a good balance between quality and size that plays on any device.
+      <% } else { %>Each GIF gets its own optimized colour palette, so it looks sharp while staying small. Keep clips short (up to <%= gifMaxSeconds %> seconds) for the best results.<% } %>
+    </p>
+    <p class="muted small"><%- icon('shield', 'ic-sm') %> Uploaded files and results are deleted automatically within an hour.</p>
+    <h3 class="subhead">Other converters</h3>
+    <div class="chip-row">
+      <% converters.filter(function (c) { return c.slug !== conv.slug; }).forEach(function (c) { %>
+      <a class="chip" href="/<%= c.slug %>"><%- icon('convert', 'ic-sm') %> <%= c.label %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

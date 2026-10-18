@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: 'For webmasters & developers', heroLead: 'Link to ' + brand.name + ' from your site or call the JSON API from your own app.', heroIcon: icon('link') }) %>
+<section class="section">
+  <div class="container container-md docs">
+    <h2>Link shortcut</h2>
+    <p>Send visitors straight to the download options for any video:</p>
+    <pre><code><%= origin %>/?url=<b>ENCODED_VIDEO_URL</b></code></pre>
+    <p>A button for your page:</p>
+    <pre><code>&lt;a href="<%= origin %>/?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Daqz-KE-bpKQ"
+   target="_blank" rel="noopener"&gt;Download with <%= brand.name %>&lt;/a&gt;</code></pre>
+
+    <h2>JSON API</h2>
+    <h3><code>GET /api/info?url=…</code> (or <code>POST /api/info</code> with <code>{"url": "…"}</code>)</h3>
+    <p>Returns the video's details and the list of download options.</p>
+    <pre><code>{
+  "type": "video",
+  "token": "kq2…",
+  "title": "Big Buck Bunny",
+  "durationText": "10:35",
+  "site": "Youtube",
+  "thumbnail": "/api/thumb/kq2…",
+  "defaultKey": "m-136+140",
+  "options": [
+    { "key": "m-136+140", "group": "video", "label": "MP4", "quality": "720", "mode": "job", "size": 160796363 },
+    { "key": "a-140", "group": "audio", "label": "Audio M4A", "quality": "129", "mode": "direct" }
+  ]
+}</code></pre>
+    <p>Playlists return <code>"type": "playlist"</code> with an <code>entries</code> array; entries of type <code>link</code> can be passed to <code>/api/info</code> again.</p>
+
+    <h3>Options with <code>"mode": "direct"</code></h3>
+    <pre><code>GET /api/download/{token}/{key}</code></pre>
+    <p>Streams the file with a <code>Content-Disposition: attachment</code> header. Add <code>?inline=1</code> to play it in a <code>&lt;video&gt;</code> element.</p>
+
+    <h3>Options with <code>"mode": "job"</code></h3>
+    <pre><code>POST /api/jobs            {"token": "…", "key": "…"}  → {"id": "…", "status": "queued"}
+GET  /api/jobs/{id}        → status, progress (0-100), speed, eta
+GET  /api/jobs/{id}/events → Server-Sent Events with the same object
+GET  /api/jobs/{id}/file   → the finished file
+DELETE /api/jobs/{id}      → cancel</code></pre>
+
+    <h3>Subtitles</h3>
+    <pre><code>POST /api/subtitles {"url": "…"} → {"token": "…", "tracks": [{"lang": "en", "auto": false, "name": "English"}]}
+GET  /api/subtitles/{token}/{lang}?auto=0&amp;format=srt|vtt|txt|json</code></pre>
+
+    <h3>File conversion</h3>
+    <pre><code>POST /api/convert?target=mp4|mp3|gif   (multipart/form-data, field "file")
+     GIF options: &amp;start=0&amp;duration=5&amp;width=480&amp;fps=12</code></pre>
+
+    <h3>Errors</h3>
+    <p>Errors use HTTP status codes and a JSON body: <code>{"error": "message for people", "code": "unsupported|private|login_required|…"}</code>. Links in a result stay valid for about 30 minutes. The API is rate-limited per IP address.</p>
+  </div>
+</section>
+<%- include('partials/footer') %>

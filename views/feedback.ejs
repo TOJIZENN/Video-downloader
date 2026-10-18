@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: 'Feedback', heroLead: 'Found a link that does not work, or have an idea? Tell us. The <a href="/faq">FAQ</a> may already have the answer.', heroIcon: icon('alert') }) %>
+<section class="section">
+  <div class="container container-md">
+    <form id="feedback-form" class="card form-card">
+      <label>Topic
+        <select class="select" name="topic">
+          <option value="broken-link">A link doesn't download</option>
+          <option value="new-site">Please support a new site</option>
+          <option value="idea">Suggestion</option>
+          <option value="other">Something else</option>
+        </select>
+      </label>
+      <label>Video link (optional)
+        <input class="input" type="text" name="link" inputmode="url" placeholder="https://…">
+      </label>
+      <label>Your email (optional, if you'd like a reply)
+        <input class="input" type="email" name="email" placeholder="you@example.com">
+      </label>
+      <label>Message
+        <textarea class="input" name="message" rows="6" required minlength="5" maxlength="5000"></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary"><svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg> Send</button>
+      <p class="form-status" data-feedback-status aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+<%- include('partials/footer') %>

@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<%- include('partials/page-hero', { heroTitle: 'Help & FAQ', heroLead: 'Can\'t find an answer? <a href="/feedback">Send us a message</a>.', heroIcon: icon('alert') }) %>
+<%- include('partials/faq') %>
+<section class="section section-tight">
+  <div class="container container-md">
+    <div class="tool-grid tool-grid-2">
+      <a class="tool-card" href="/how-to-download"><span class="feature-ic"><%- icon('download') %></span><h3>Step-by-step guide</h3><p>How to download on computers, Android and iPhone.</p></a>
+      <a class="tool-card" href="/install"><span class="feature-ic"><%- icon('puzzle') %></span><h3><%= brand.name %> Helper</h3><p>One-click downloads from any video page.</p></a>
+      <a class="tool-card" href="/youtube-transcript"><span class="feature-ic"><%- icon('text') %></span><h3>Transcripts</h3><p>Turn a YouTube video into searchable text.</p></a>
+      <a class="tool-card" href="/mp4-to-mp3"><span class="feature-ic"><%- icon('music') %></span><h3>Video to MP3</h3><p>Convert a file you already have.</p></a>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

@@ -1,0 +1,50 @@
+<section class="hero">
+  <div class="container hero-inner">
+    <% if (platform) { %>
+      <a class="hero-crumb" href="/"><img src="/icons/<%= platform.icon %>.svg" alt="" width="16" height="16"> <%= platform.domain %></a>
+    <% } %>
+    <h1 class="hero-title"><%= h1 %></h1>
+    <p class="hero-sub"><%= heroSub %></p>
+
+    <form id="dl-form" class="search-card" action="<%= currentPath %>" method="get" autocomplete="off"
+          data-default-audio="<%= platform && platform.audio ? '1' : '' %>" data-autostart="<%= prefill ? '1' : '' %>">
+      <div class="mode-switch" role="radiogroup" aria-label="Format">
+        <button type="button" role="radio" aria-checked="<%= platform && platform.audio ? 'false' : 'true' %>" data-mode="video"><%- icon('film', 'ic-sm') %> <%= t('mode.video') %></button>
+        <button type="button" role="radio" aria-checked="<%= platform && platform.audio ? 'true' : 'false' %>" data-mode="audio"><%- icon('music', 'ic-sm') %> <%= t('mode.audio') %></button>
+      </div>
+      <div class="search-row">
+        <div class="search-field">
+          <%- icon('link', 'field-ic') %>
+          <label for="dl-url" class="visually-hidden"><%= placeholder %></label>
+          <input id="dl-url" name="url" type="text" inputmode="url" spellcheck="false" autocapitalize="off" autocorrect="off"
+                 placeholder="<%= placeholder %>" value="<%= prefill %>" maxlength="4096" autofocus>
+          <button type="button" class="paste-btn" data-paste><%- icon('clipboard', 'ic-sm') %> <%= t('form.paste') %></button>
+          <button type="button" class="icon-btn dl-clear" aria-label="<%= t('form.clear') %>" hidden><%- icon('x', 'ic-sm') %></button>
+        </div>
+        <button type="submit" class="btn btn-primary btn-xl dl-submit"><span><%= t('form.download') %></span></button>
+      </div>
+      <p class="search-foot"><%= t('form.note') %></p>
+      <div class="recent" data-recent hidden>
+        <span class="recent-label"><%= t('recent.title') %></span>
+        <div class="recent-list" data-recent-list></div>
+        <button type="button" class="link-btn" data-recent-clear><%= t('recent.clear') %></button>
+      </div>
+    </form>
+
+    <% if (!platform) { %>
+    <div class="hero-sites" aria-label="<%= t('home.platforms') %>">
+      <% resourceTiles.slice(0, 10).forEach(function (p) { %>
+        <a href="/<%= p.slug %>" title="<%= p.site %>"><img src="/icons/<%= p.icon %>.svg?c=mono" alt="<%= p.site %>" width="18" height="18"></a>
+      <% }) %>
+      <a class="hero-sites-more" href="/supported-sites"><%= t('home.moreSites') %></a>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<section class="results" aria-live="polite">
+  <div class="container container-md">
+    <div id="dl-status"></div>
+    <div id="dl-result"></div>
+  </div>
+</section>
