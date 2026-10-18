@@ -8,6 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 COPY . .
+RUN npm run setup
 
 ENV NODE_ENV=production HOST=0.0.0.0
 EXPOSE 3000
