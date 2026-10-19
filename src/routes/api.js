@@ -288,7 +288,8 @@ router.use((req, res) => res.status(404).json({ error: 'Not found', code: 'not_f
 // eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
   const status = err.status || 500;
-  if (status >= 500 && err.code !== 'extract_failed') console.error('[api]', req.method, req.originalUrl, err.detail || err.stack || err.message);
+  // err.detail is yt-dlp's own reason; it never reaches visitors in production, so log it here.
+  if (status >= 500 || err.detail) console.error('[api]', req.method, req.originalUrl, err.detail || err.stack || err.message);
   if (res.headersSent) return res.destroy();
   res.status(status).json({
     error: status >= 500 && !err.code ? 'Something went wrong. Please try again.' : err.message,

@@ -37,7 +37,7 @@ badges, partner links, and anonymous Instagram story viewing.
 
 ## Quick start
 
-Requirements: Node.js 20+ and Python 3.10+ (used only to run yt-dlp).
+Requirements: Node.js 22+ (yt-dlp uses it for YouTube) and Python 3.10+ (used only to run yt-dlp).
 
 ```bash
 npm install          # also downloads an FFmpeg binary (ffmpeg-static)
