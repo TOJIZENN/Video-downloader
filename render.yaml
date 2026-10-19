@@ -1,0 +1,21 @@
+# Render Blueprint: Dashboard → New → Blueprint → pick this repo.
+# Render asks for SITE_PASSWORD on first deploy; AUTH_SECRET is generated for you.
+services:
+  - type: web
+    name: fetchly
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free # sleeps after 15 min idle and has 0.1 CPU; "starter" is much faster for HD merges
+    region: singapore
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: SITE_PASSWORD
+        sync: false
+      - key: AUTH_SECRET
+        generateValue: true
