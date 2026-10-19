@@ -138,6 +138,13 @@ HOST=0.0.0.0
 PUBLIC_URL=https://your-domain.example
 ```
 
+YouTube refuses most hosting providers' IPs ("Failed to extract any player
+response" in the logs). Export `cookies.txt` for youtube.com from a spare Google
+account in a private window, then close that window so the browser doesn't rotate
+the cookies. On Render, add it as a Secret File named `cookies.txt`; `render.yaml`
+already sets `COOKIES_FILE=/etc/secrets/cookies.txt`. Each yt-dlp run uses its own
+copy, so a read-only file is fine.
+
 Give the server enough disk for prepared files (a 4K video can be over 1 GB; files
 are deleted after an hour) and run `npm run update` regularly.
 

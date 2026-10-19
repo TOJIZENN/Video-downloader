@@ -19,3 +19,7 @@ services:
         sync: false
       - key: AUTH_SECRET
         generateValue: true
+      # YouTube blocks Render's IPs without a signed-in session: add a Secret File
+      # named cookies.txt (Environment tab). Lookups run without it if it's missing.
+      - key: COOKIES_FILE
+        value: /etc/secrets/cookies.txt

@@ -1,4 +1,7 @@
 const { spawn } = require('child_process');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 const { HttpError } = require('./security');
 
@@ -9,7 +12,7 @@ function childEnv() {
   return { ...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1' };
 }
 
-function commonArgs() {
+function commonArgs(cookies) {
   const a = [
     ...config.ytdlp.baseArgs,
     '--ignore-config',
@@ -18,7 +21,7 @@ function commonArgs() {
     '--js-runtimes', config.jsRuntime,
     '--ffmpeg-location', config.ffmpeg,
   ];
-  if (config.cookiesFile) a.push('--cookies', config.cookiesFile);
+  if (cookies) a.push('--cookies', cookies);
   else if (config.cookiesFromBrowser) a.push('--cookies-from-browser', config.cookiesFromBrowser);
   if (config.proxy) a.push('--proxy', config.proxy);
   return a;
@@ -33,8 +36,25 @@ function looksBlocked(err) {
   return Boolean(err && config.impersonate && (err.code === 'blocked' || /Cloudflare|anti-bot|impersonat|HTTP Error 403|Just a moment/i.test(err.detail || '')));
 }
 
+// yt-dlp rewrites its cookie file on exit. Each run gets a private copy, so
+// COOKIES_FILE may be read-only (e.g. a Render secret file) and parallel runs
+// can't truncate it under each other.
+function cookiesCopy() {
+  if (!config.cookiesFile) return '';
+  const copy = path.join(config.dirs.tmp, `cookies-${crypto.randomBytes(8).toString('hex')}.txt`);
+  try {
+    fs.writeFileSync(copy, fs.readFileSync(config.cookiesFile), { mode: 0o600 });
+    return copy;
+  } catch {
+    return ''; // missing file: run without cookies instead of failing every lookup
+  }
+}
+
 function spawnYtDlp(args) {
-  return spawn(config.ytdlp.cmd, [...commonArgs(), ...args], { env: childEnv(), windowsHide: true });
+  const cookies = cookiesCopy();
+  const child = spawn(config.ytdlp.cmd, [...commonArgs(cookies), ...args], { env: childEnv(), windowsHide: true });
+  if (cookies) child.on('close', () => fs.rm(cookies, { force: true }, () => {}));
+  return child;
 }
 
 // yt-dlp error text -> message a visitor can act on.
@@ -45,7 +65,7 @@ function mapError(stderr) {
   const t = detail;
   const rules = [
     [/Unsupported URL|is not a valid URL|No suitable extractor/i, 422, 'unsupported', "This link isn't supported. Copy the address of the page that plays the video and try again."],
-    [/confirm you.?re not a bot|confirm you are not a bot/i, 503, 'bot_check', 'The website is temporarily blocking requests from this server. Please try again later.'],
+    [/confirm you.?re not a bot|confirm you are not a bot|Failed to extract any player response/i, 503, 'bot_check', 'The website is temporarily blocking requests from this server. Please try again later.'],
     [/Cloudflare|anti-bot|impersonat|Just a moment|HTTP Error 403/i, 403, 'blocked', 'The website refused the request from this server. Please try again later.'],
     [/Private video|video is private|This account is private/i, 403, 'private', 'This video is private. Only public videos can be downloaded.'],
     [/age.?restricted|confirm your age|inappropriate for some users/i, 403, 'age_restricted', 'This video is age-restricted and needs a signed-in account to download.'],

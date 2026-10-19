@@ -110,6 +110,7 @@ if (require.main === module) {
     console.log(`${config.brand.name} running at http://${shown}:${config.port}`);
     console.log(`  yt-dlp: ${config.ytdlp.cmd} ${config.ytdlp.baseArgs.join(' ')}`.trimEnd());
     console.log(`  ffmpeg: ${config.ffmpeg}`);
+    if (config.cookiesFile) console.log(`  cookies: ${config.cookiesFile}${fs.existsSync(config.cookiesFile) ? '' : ' (NOT FOUND, running without cookies)'}`);
     if (!auth.enabled) console.warn('  Private access is OFF (no SITE_PASSWORD). Anyone who can reach this server can use it.');
     else if (auth.misconfigured) console.warn('  Private access is ON but not configured: set SITE_PASSWORD and AUTH_SECRET (32+ characters).');
     else console.log('  Private access is ON (password required).');
